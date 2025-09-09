@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://cji1gc671bc71"]
+
+[ext_resource type="Script" uid="uid://bdi3eefmqx2fp" path="res://scenes/main/world.gd" id="1_dtyxf"]
+[ext_resource type="FontFile" uid="uid://cqh1r6nuq8nhq" path="res://styles/baloo.regular.ttf" id="2_iubku"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_dtyxf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.4, 0.4)
+
+[node name="TimeLabel" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_iubku")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+fit_content = true
+
+[node name="SeasonLabel" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_iubku")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+fit_content = true
+
+[node name="MoonPhaseLabel" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_iubku")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+fit_content = true
