@@ -15,6 +15,10 @@ run/main_scene="uid://cji1gc671bc71"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalVariables="*res://singletons/global_variables.gd"
+
 [display]
 
 window/size/viewport_width=390

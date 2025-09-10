@@ -1,0 +1,36 @@
+extends Node
+
+enum TimeOfDay {
+	MORNING,
+	AFTERNOON,
+	EVENING,
+	NIGHT
+}
+
+enum Season {
+	SPRING,
+	SUMMER,
+	FALL,
+	WINTER
+}
+
+enum Weather {
+	CLOUDY,
+	SUNNY,
+	LIGHT_RAIN,
+	RAIN,
+	STORM,
+	SNOW,
+	HAIL
+}
+
+enum MoonPhase {
+	NEW_MOON,
+	WAXING_CRESCENT,
+	FIRST_QUARTER,
+	WAXING_GIBBOUS,
+	FULL_MOON,
+	WANING_GIBBOUS,
+	LAST_QUARTER,
+	WANING_CRESCENT
+}

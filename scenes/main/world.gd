@@ -15,6 +15,10 @@ var time: int
 var season: int
 @onready var season_label: RichTextLabel = $VBoxContainer/SeasonLabel
 
+var weather: int
+var weather_chances: Dictionary
+@onready var weather_label: RichTextLabel = $VBoxContainer/WeatherLabel
+
 var moon_phase: int
 @onready var moon_phase_label: RichTextLabel = $VBoxContainer/MoonPhaseLabel
 
@@ -29,36 +33,108 @@ func _process(delta: float) -> void:
 	second = now.second
 	get_time()
 	get_season()
+	if $WeatherTimer.is_stopped():
+		$WeatherTimer.start(randf_range(10, 500))
+		print("ok")
+		get_weather()
 	get_moon_phase()
+	print($WeatherTimer.time_left)
 	
 func get_time() -> void:
 	if hour >= 6 and hour < 12:
-		time = 1
+		time = GlobalVariables.TimeOfDay.MORNING
 		time_label.text = "Morning"
 	elif hour >= 12 and hour < 17:
-		time = 2
+		time = GlobalVariables.TimeOfDay.AFTERNOON
 		time_label.text = "Afternoon"
 	elif hour >= 17 and hour < 22:
-		time = 3
+		time = GlobalVariables.TimeOfDay.EVENING
 		time_label.text = "Evening"
 	elif hour >= 22 and hour < 6:
-		time = 4
+		time = GlobalVariables.TimeOfDay.NIGHT
 		time_label.text = "Night"
 
 func get_season() -> void:
 	if (month == 3 and day >= 20) or (month in [4, 5]) or (month == 6 and day <= 20):
-		season = 2
+		season = GlobalVariables.Season.SPRING
 		season_label.text = "Spring"
 	elif (month == 6 and day >= 21) or (month in [7, 8]) or (month == 9 and day <= 21):
-		season = 3
+		season = GlobalVariables.Season.SUMMER
 		season_label.text = "Summer"
 	elif (month == 9 and day >= 22) or (month in [10, 11]) or (month == 12 and day <= 20):
-		season = 4
+		season = GlobalVariables.Season.FALL
 		season_label.text = "Fall"
 	else:
-		season = 1
+		season = GlobalVariables.Season.WINTER
 		season_label.text = "Winter"
-
+		
+func get_weather() -> void:
+	if season == GlobalVariables.Season.SPRING:
+		weather_chances = {
+			GlobalVariables.Weather.CLOUDY: 20,
+			GlobalVariables.Weather.SUNNY: 15,
+			GlobalVariables.Weather.LIGHT_RAIN: 20,
+			GlobalVariables.Weather.RAIN: 15,
+			GlobalVariables.Weather.STORM: 15,
+			GlobalVariables.Weather.SNOW: 0,
+			GlobalVariables.Weather.HAIL: 15,
+		}
+	elif season == GlobalVariables.Season.SUMMER:
+		weather_chances = {
+			GlobalVariables.Weather.CLOUDY: 25,
+			GlobalVariables.Weather.SUNNY: 50,
+			GlobalVariables.Weather.LIGHT_RAIN: 5,
+			GlobalVariables.Weather.RAIN: 5,
+			GlobalVariables.Weather.STORM: 0,
+			GlobalVariables.Weather.SNOW: 0,
+			GlobalVariables.Weather.HAIL: 15,
+		}
+	elif season == GlobalVariables.Season.FALL:
+		weather_chances = {
+			GlobalVariables.Weather.CLOUDY: 40,
+			GlobalVariables.Weather.SUNNY: 20,
+			GlobalVariables.Weather.LIGHT_RAIN: 15,
+			GlobalVariables.Weather.RAIN: 10,
+			GlobalVariables.Weather.STORM: 10,
+			GlobalVariables.Weather.SNOW: 5,
+			GlobalVariables.Weather.HAIL: 0,
+		}
+	elif season == GlobalVariables.Season.WINTER:
+		weather_chances = {
+			GlobalVariables.Weather.CLOUDY: 25,
+			GlobalVariables.Weather.SUNNY: 5,
+			GlobalVariables.Weather.LIGHT_RAIN: 20,
+			GlobalVariables.Weather.RAIN: 15,
+			GlobalVariables.Weather.STORM: 15,
+			GlobalVariables.Weather.SNOW: 20,
+			GlobalVariables.Weather.HAIL: 0,
+		}
+	var key = weather_chances.keys().pick_random()
+	while weather != key:
+		if randi_range(1, 100) <= weather_chances[key]:
+			weather = key
+	if weather == GlobalVariables.Weather.CLOUDY:
+		$WeatherSound.stream = preload("res://sounds/cloudy.mp3")
+		weather_label.text = "Cloudy"
+	elif weather == GlobalVariables.Weather.SUNNY:
+		$WeatherSound.stream = preload("res://sounds/sunny.mp3")
+		weather_label.text = "Sunny"
+	elif weather == GlobalVariables.Weather.LIGHT_RAIN:
+		$LightRainParticles.visible = true
+		$WeatherSound.stream = preload("res://sounds/light_rain.mp3")
+		weather_label.text = "Light Rain"
+	elif weather == GlobalVariables.Weather.RAIN:
+		$RainParticles.visible = true
+		$WeatherSound.stream = preload("res://sounds/rain.mp3")
+		weather_label.text = "Rain"
+	elif weather == GlobalVariables.Weather.SNOW:
+		$WeatherSound.stream = preload("res://sounds/snow.mp3")
+		weather_label.text = "Snow"
+	elif weather == GlobalVariables.Weather.HAIL:
+		$WeatherSound.stream = preload("res://sounds/hail.mp3")
+		weather_label.text = "Hail"
+	$WeatherSound.play()
+		
 func get_moon_phase() -> void:
 	var ref_year: int = 2000
 	var ref_month: int = 1
@@ -73,28 +149,28 @@ func get_moon_phase() -> void:
 
 	var phase_name: String = ""
 	if lunar_age < 1:
-		moon_phase = 1
+		moon_phase = GlobalVariables.MoonPhase.NEW_MOON
 		moon_phase_label.text = "New Moon"
 	elif lunar_age < 6.38265:
-		moon_phase = 2
+		moon_phase = GlobalVariables.MoonPhase.WAXING_CRESCENT
 		moon_phase_label.text = "Waxing Crescent"
 	elif lunar_age < 8.38265:
-		moon_phase = 3
+		moon_phase = GlobalVariables.MoonPhase.FIRST_QUARTER
 		moon_phase_label.text = "First Quarter"
 	elif lunar_age < 14.7653:
-		moon_phase = 4
+		moon_phase = GlobalVariables.MoonPhase.WAXING_GIBBOUS
 		moon_phase_label.text = "Waxing Gibbous"
 	elif lunar_age < 15.7653:
-		moon_phase = 5
+		moon_phase = GlobalVariables.MoonPhase.FULL_MOON
 		moon_phase_label.text = "Full Moon"
 	elif lunar_age < 22.14795:
-		moon_phase = 6
+		moon_phase = GlobalVariables.MoonPhase.WANING_GIBBOUS
 		moon_phase_label.text = "Waning Gibbous"
 	elif lunar_age < 24.14795:
-		moon_phase = 7
+		moon_phase = GlobalVariables.MoonPhase.LAST_QUARTER
 		moon_phase_label.text = "Last Quarter"
 	else:
-		moon_phase = 8
+		moon_phase = GlobalVariables.MoonPhase.WANING_CRESCENT
 		moon_phase_label.text = "Waning Crescent"
 
 func _julian_day(year: int, month: int, day: int) -> float:
