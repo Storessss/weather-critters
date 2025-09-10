@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0hp73igc63fm"]
+[gd_scene load_steps=5 format=3 uid="uid://dip236uvukor1"]
 
-[ext_resource type="Texture2D" uid="uid://p5o44mtbxk0o" path="res://sprites/raindrop.png" id="1_5rha2"]
+[ext_resource type="Texture2D" uid="uid://cckfec1ujkmtr" path="res://sprites/snow.png" id="1_2si5r"]
 
 [sub_resource type="Gradient" id="Gradient_enhe0"]
 colors = PackedColorArray(1, 1, 1, 1, 0.617455, 0.617455, 0.617455, 1)
@@ -15,11 +15,11 @@ emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 direction = Vector3(0.1, 1, 0)
 spread = 0.0
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
+initial_velocity_min = 80.0
+initial_velocity_max = 150.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.1
-scale_max = 0.5
+scale_min = 0.18
+scale_max = 0.4
 color = Color(1, 1, 1, 0.678431)
 color_ramp = SubResource("GradientTexture1D_7eots")
 collision_mode = 2
@@ -27,20 +27,19 @@ collision_use_scale = true
 sub_emitter_mode = 3
 sub_emitter_amount_at_collision = 5
 
-[node name="RainParticles" type="GPUParticles2D"]
+[node name="HailParticles" type="GPUParticles2D"]
 position = Vector2(160, -50)
 scale = Vector2(4, 4)
 emitting = false
-amount = 600
-texture = ExtResource("1_5rha2")
-lifetime = 3.0
+amount = 200
+texture = ExtResource("1_2si5r")
+lifetime = 6.0
 preprocess = 3.0
 speed_scale = 2.0
 fixed_fps = 60
 collision_base_size = 15.0
 visibility_rect = Rect2(-250, -100, 500, 500)
 local_coords = true
-trail_enabled = true
 trail_lifetime = 0.07
 trail_sections = 7
 trail_section_subdivisions = 1

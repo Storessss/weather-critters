@@ -28,6 +28,9 @@ sub_emitter_mode = 3
 sub_emitter_amount_at_collision = 5
 
 [node name="LightRainParticles" type="GPUParticles2D"]
+position = Vector2(160, -50)
+scale = Vector2(4, 4)
+emitting = false
 amount = 100
 texture = ExtResource("1_ir2wq")
 lifetime = 3.0

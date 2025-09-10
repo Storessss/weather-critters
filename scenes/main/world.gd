@@ -10,17 +10,42 @@ var minute: int
 var second: int
 
 var time: int
-@onready var time_label: RichTextLabel = $VBoxContainer/TimeLabel
+@onready var time_label: RichTextLabel = $Hud/VBoxContainer/TimeOfDayLabel
 
 var season: int
-@onready var season_label: RichTextLabel = $VBoxContainer/SeasonLabel
+@onready var season_label: RichTextLabel = $Hud/VBoxContainer/SeasonLabel
 
 var weather: int
 var weather_chances: Dictionary
-@onready var weather_label: RichTextLabel = $VBoxContainer/WeatherLabel
+@onready var weather_label: RichTextLabel = $Hud/VBoxContainer/WeatherLabel
 
 var moon_phase: int
-@onready var moon_phase_label: RichTextLabel = $VBoxContainer/MoonPhaseLabel
+@onready var moon_phase_label: RichTextLabel = $Hud/VBoxContainer/MoonPhaseLabel
+
+var days_of_week: Array[String] = [
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+	"Saturday",
+	"Sunday"
+]
+
+var months: Array[String] = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December"
+]
 
 func _process(delta: float) -> void:
 	now = Time.get_datetime_dict_from_system()
@@ -31,14 +56,17 @@ func _process(delta: float) -> void:
 	hour = now.hour
 	minute = now.minute
 	second = now.second
+	$Hud/VBoxContainer/DayLabel.text = days_of_week[weekday - 1] + " " + str(day) + " " + months[month - 1] \
+	+ " " + str(year) + " " + str(hour).pad_zeros(2) + ":" + str(minute).pad_zeros(2) + ":" + str(second).pad_zeros(2)
 	get_time()
 	get_season()
 	if $WeatherTimer.is_stopped():
-		$WeatherTimer.start(randf_range(10, 500))
-		print("ok")
+		$WeatherTimer.start(randf_range(10.0, 500.0))
 		get_weather()
+	if weather == GlobalVariables.Weather.STORM and $LightningTimer.is_stopped():
+		$LightningTimer.start(randf_range(7.0, 25.0))
+		storm_flash()
 	get_moon_phase()
-	print($WeatherTimer.time_left)
 	
 func get_time() -> void:
 	if hour >= 6 and hour < 12:
@@ -53,6 +81,8 @@ func get_time() -> void:
 	elif hour >= 22 and hour < 6:
 		time = GlobalVariables.TimeOfDay.NIGHT
 		time_label.text = "Night"
+	var brightness := 0.6 + 0.4 * cos((hour - 12) / 24.0 * PI * 2)
+	$CanvasModulate.color = Color(0.9 * brightness, 0.95 * brightness, 1.0 * brightness)
 
 func get_season() -> void:
 	if (month == 3 and day >= 20) or (month in [4, 5]) or (month == 6 and day <= 20):
@@ -109,28 +139,42 @@ func get_weather() -> void:
 			GlobalVariables.Weather.SNOW: 20,
 			GlobalVariables.Weather.HAIL: 0,
 		}
-	var key = weather_chances.keys().pick_random()
+	for effect in $WeatherEffects.get_children():
+		if effect is GPUParticles2D:
+			effect.emitting = false
+	$WeatherEffects/LightningFlash.visible = false
+	$SunRays.visible = false
+	var key: int
+	weather = -1
 	while weather != key:
+		key = weather_chances.keys().pick_random()
 		if randi_range(1, 100) <= weather_chances[key]:
 			weather = key
 	if weather == GlobalVariables.Weather.CLOUDY:
 		$WeatherSound.stream = preload("res://sounds/cloudy.mp3")
 		weather_label.text = "Cloudy"
 	elif weather == GlobalVariables.Weather.SUNNY:
+		$SunRays.visible = true
 		$WeatherSound.stream = preload("res://sounds/sunny.mp3")
 		weather_label.text = "Sunny"
 	elif weather == GlobalVariables.Weather.LIGHT_RAIN:
-		$LightRainParticles.visible = true
+		$WeatherEffects/LightRainParticles.emitting = true
 		$WeatherSound.stream = preload("res://sounds/light_rain.mp3")
 		weather_label.text = "Light Rain"
 	elif weather == GlobalVariables.Weather.RAIN:
-		$RainParticles.visible = true
+		$WeatherEffects/RainParticles.emitting = true
 		$WeatherSound.stream = preload("res://sounds/rain.mp3")
 		weather_label.text = "Rain"
+	elif weather == GlobalVariables.Weather.STORM:
+		$WeatherEffects/RainParticles.emitting = true
+		$WeatherSound.stream = preload("res://sounds/rain.mp3")
+		weather_label.text = "Storm"
 	elif weather == GlobalVariables.Weather.SNOW:
+		$WeatherEffects/SnowParticles.emitting = true
 		$WeatherSound.stream = preload("res://sounds/snow.mp3")
 		weather_label.text = "Snow"
 	elif weather == GlobalVariables.Weather.HAIL:
+		$WeatherEffects/HailParticles.emitting = true
 		$WeatherSound.stream = preload("res://sounds/hail.mp3")
 		weather_label.text = "Hail"
 	$WeatherSound.play()
@@ -181,3 +225,33 @@ func _julian_day(year: int, month: int, day: int) -> float:
 	var B: int = 2 - A + int(A / 4)
 	var jd: float = int(365.25 * (year + 4716)) + int(30.6001 * (month + 1)) + day + B - 1524.5
 	return jd
+
+func play_lightning_flash():
+	var flash: ColorRect = $WeatherEffects/LightningFlash
+	flash.visible = true
+	flash.modulate.a = 0.8
+	
+	var tween := create_tween()
+	tween.tween_property(flash, "modulate:a", 0.0, 0.2).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(Callable(flash, "hide"))
+	
+func storm_flash():
+	play_lightning_flash()
+	if randf() < 0.5:
+		await get_tree().create_timer(randf_range(0.1, 0.3)).timeout
+		play_lightning_flash()
+	await get_tree().create_timer(randf_range(0.4, 2.2)).timeout
+	play_thunder_sound()
+	
+func play_thunder_sound():
+	var thunder_sounds: Array[AudioStream] = [
+		preload("res://sounds/thunder1.wav"),
+		preload("res://sounds/thunder2.wav"),
+		preload("res://sounds/thunder3.wav"),
+		preload("res://sounds/thunder4.wav"),
+		preload("res://sounds/thunder5.wav"),
+		preload("res://sounds/thunder6.wav"),
+		preload("res://sounds/thunder7.wav"),
+	]
+	$ThunderSound.stream = thunder_sounds.pick_random()
+	$ThunderSound.play()
