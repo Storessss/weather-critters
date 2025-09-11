@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfio7o7kxee1p"]
+
+[ext_resource type="PackedScene" uid="uid://cked2qkxmkgkb" path="res://scenes/critters/critter.tscn" id="1_pkxbs"]
+[ext_resource type="Texture2D" uid="uid://c2iepnu44eck8" path="res://sprites/spingus.png" id="2_wue1g"]
+
+[node name="Spingus" instance=ExtResource("1_pkxbs")]
+time_of_day = Array[int]([3])
+weather = Array[int]([0, 1])
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_wue1g")

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpaum8y34wd12"]
+
+[ext_resource type="PackedScene" uid="uid://cked2qkxmkgkb" path="res://scenes/critters/critter.tscn" id="1_u5w8j"]
+[ext_resource type="Texture2D" uid="uid://ibol0gc5vvc1" path="res://sprites/triple_shooter_idle.png" id="2_5y30x"]
+
+[node name="TripleShooter" instance=ExtResource("1_u5w8j")]
+moon_phase = Array[int]([0])
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_5y30x")

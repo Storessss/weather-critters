@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://blejcprrejv4k"]
+
+[ext_resource type="PackedScene" uid="uid://cked2qkxmkgkb" path="res://scenes/critters/critter.tscn" id="1_du7ra"]
+[ext_resource type="Texture2D" uid="uid://cbk0ss4isij04" path="res://sprites/crusher_idle.png" id="2_ruxgi"]
+
+[node name="Crusher" instance=ExtResource("1_du7ra")]
+time_of_day = Array[int]([0, 1])
+weekday = Array[int]([1, 2, 3, 4, 5])
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_ruxgi")

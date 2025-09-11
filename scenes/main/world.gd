@@ -9,7 +9,7 @@ var hour: int
 var minute: int
 var second: int
 
-var time: int
+var time_of_day: int
 @onready var time_label: RichTextLabel = $Hud/VBoxContainer/TimeOfDayLabel
 
 var season: int
@@ -70,16 +70,16 @@ func _process(delta: float) -> void:
 	
 func get_time() -> void:
 	if hour >= 6 and hour < 12:
-		time = GlobalVariables.TimeOfDay.MORNING
+		time_of_day = GlobalVariables.TimeOfDay.MORNING
 		time_label.text = "Morning"
 	elif hour >= 12 and hour < 17:
-		time = GlobalVariables.TimeOfDay.AFTERNOON
+		time_of_day = GlobalVariables.TimeOfDay.AFTERNOON
 		time_label.text = "Afternoon"
 	elif hour >= 17 and hour < 22:
-		time = GlobalVariables.TimeOfDay.EVENING
+		time_of_day = GlobalVariables.TimeOfDay.EVENING
 		time_label.text = "Evening"
-	elif hour >= 22 and hour < 6:
-		time = GlobalVariables.TimeOfDay.NIGHT
+	elif hour >= 22 or hour < 6:
+		time_of_day = GlobalVariables.TimeOfDay.NIGHT
 		time_label.text = "Night"
 	var brightness := 0.6 + 0.4 * cos((hour - 12) / 24.0 * PI * 2)
 	$CanvasModulate.color = Color(0.9 * brightness, 0.95 * brightness, 1.0 * brightness)
@@ -139,6 +139,15 @@ func get_weather() -> void:
 			GlobalVariables.Weather.SNOW: 20,
 			GlobalVariables.Weather.HAIL: 0,
 		}
+	#weather_chances = {
+			#GlobalVariables.Weather.CLOUDY: 0,
+			#GlobalVariables.Weather.SUNNY: 0,
+			#GlobalVariables.Weather.LIGHT_RAIN: 0,
+			#GlobalVariables.Weather.RAIN: 0,
+			#GlobalVariables.Weather.STORM: 100,
+			#GlobalVariables.Weather.SNOW: 0,
+			#GlobalVariables.Weather.HAIL: 0,
+		#}
 	for effect in $WeatherEffects.get_children():
 		if effect is GPUParticles2D:
 			effect.emitting = false
