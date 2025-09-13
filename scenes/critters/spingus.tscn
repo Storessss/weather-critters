@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://c2iepnu44eck8" path="res://sprites/spingus.png" id="2_wue1g"]
 
 [node name="Spingus" instance=ExtResource("1_pkxbs")]
+critter_name = "Spingus"
+texture = ExtResource("2_wue1g")
+tip = "Likes to sleep, possibly when it's not raining on him."
 time_of_day = Array[int]([3])
 weather = Array[int]([0, 1])
 

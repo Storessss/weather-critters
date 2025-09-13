@@ -4,8 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://c8eyik4ekdeh8" path="res://sprites/dungeon_flower.png" id="2_t31ky"]
 
 [node name="DungeonFlower" instance=ExtResource("1_r8m8c")]
+critter_name = "Dungeon Flower"
+texture = ExtResource("2_t31ky")
+tip = "Likes spring and water, just like any flower would."
 season = Array[int]([0])
-weather = Array[int]([0, 2, 3])
+weather = Array[int]([2, 3, 4])
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_t31ky")

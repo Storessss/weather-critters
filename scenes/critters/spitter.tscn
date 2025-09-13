@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://byxj4y7tpm8t6" path="res://sprites/spitter_idle1.png" id="2_jvda0"]
 
 [node name="Spitter" instance=ExtResource("1_7e47f")]
+critter_name = "Spitter"
+texture = ExtResource("2_jvda0")
+tip = "Likes dark, warm and wet places but doesn't like thunders."
 time_of_day = Array[int]([2, 3])
 season = Array[int]([1])
 weather = Array[int]([2, 3])

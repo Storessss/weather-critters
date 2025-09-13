@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://ibol0gc5vvc1" path="res://sprites/triple_shooter_idle.png" id="2_5y30x"]
 
 [node name="TripleShooter" instance=ExtResource("1_u5w8j")]
+critter_name = "Triple Shooter"
+texture = ExtResource("2_5y30x")
+tip = "Nobody really knows where he is from but he really doesn't seem to like the moon."
 moon_phase = Array[int]([0])
 
 [node name="Sprite2D" parent="." index="0"]

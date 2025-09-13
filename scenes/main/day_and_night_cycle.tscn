@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvbnl5u6m0oqf"]
+
+[ext_resource type="Script" uid="uid://byxsfmtsk68od" path="res://scenes/main/day_and_night_cycle.gd" id="1_xqqej"]
+[ext_resource type="Texture2D" uid="uid://bkpc1kjm4t2xn" path="res://styles/day_and_night_gradient.tres" id="2_wq30x"]
+
+[node name="DayAndNightCycle" type="CanvasModulate"]
+script = ExtResource("1_xqqej")
+gradient = ExtResource("2_wq30x")

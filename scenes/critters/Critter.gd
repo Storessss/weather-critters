@@ -2,6 +2,11 @@ extends Node
 
 class_name Critter
 
+@export var critter_name: String
+@export var texture: Texture2D
+@export_multiline var tip: String
+var found: bool
+
 @export var time_of_day: Array[GlobalVariables.TimeOfDay]
 @export var day: Array[int]
 @export var weekday: Array[int]
@@ -10,12 +15,9 @@ class_name Critter
 @export var weather: Array[GlobalVariables.Weather]
 @export var moon_phase: Array[GlobalVariables.MoonPhase]
 
+@onready var p: Node2D = get_parent()
+
 func check() -> bool:
-	for i in weekday.size():
-		weekday[i] -= 1
-	for i in month.size():
-		month[i] -= 1
-	var p: Node2D = get_parent()
 	if p.time_of_day in time_of_day or time_of_day.is_empty():
 		if p.day in day or day.is_empty():
 			if p.weekday in weekday or weekday.is_empty():

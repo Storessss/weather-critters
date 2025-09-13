@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://qlaeeo8x6xd1" path="res://sprites/slime_walk1.png" id="2_521sh"]
 
 [node name="Slime" instance=ExtResource("1_521sh")]
+critter_name = "Slime"
+texture = ExtResource("2_521sh")
+tip = "Shows up all the time."
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_521sh")

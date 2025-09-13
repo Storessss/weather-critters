@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 	get_time()
 	get_season()
 	if $WeatherTimer.is_stopped():
-		$WeatherTimer.start(randf_range(10.0, 500.0))
+		$WeatherTimer.start(randf_range(10.0, 200.0))
 		get_weather()
 	if weather == GlobalVariables.Weather.STORM and $LightningTimer.is_stopped():
 		$LightningTimer.start(randf_range(7.0, 25.0))
@@ -81,8 +81,6 @@ func get_time() -> void:
 	elif hour >= 22 or hour < 6:
 		time_of_day = GlobalVariables.TimeOfDay.NIGHT
 		time_label.text = "Night"
-	var brightness := 0.6 + 0.4 * cos((hour - 12) / 24.0 * PI * 2)
-	$CanvasModulate.color = Color(0.9 * brightness, 0.95 * brightness, 1.0 * brightness)
 
 func get_season() -> void:
 	if (month == 3 and day >= 20) or (month in [4, 5]) or (month == 6 and day <= 20):

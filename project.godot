@@ -25,6 +25,21 @@ window/size/viewport_width=390
 window/size/viewport_height=844
 window/stretch/mode="viewport"
 
+[input]
+
+next_critter={
+"deadzone": 0.2,
+"events": []
+}
+previous_critter={
+"deadzone": 0.2,
+"events": []
+}
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

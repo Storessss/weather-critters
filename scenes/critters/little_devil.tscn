@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://d0h73tfqvne12" path="res://sprites/little_devil_idle.png" id="2_e4c60"]
 
 [node name="LittleDevil" instance=ExtResource("1_pa20w")]
+critter_name = "Little Devil"
+texture = ExtResource("2_e4c60")
+tip = "Shows up at the warmest possible time."
 time_of_day = Array[int]([1])
 season = Array[int]([1])
 weather = Array[int]([1])
