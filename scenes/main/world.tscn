@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://cji1gc671bc71"]
+[gd_scene load_steps=20 format=4 uid="uid://cji1gc671bc71"]
 
 [ext_resource type="Script" uid="uid://bdi3eefmqx2fp" path="res://scenes/main/world.gd" id="1_dtyxf"]
 [ext_resource type="Texture2D" uid="uid://b5ank6ah7wm7m" path="res://sprites/The Natural 1-4 Tileset.png" id="2_0aorq"]
@@ -11,6 +11,8 @@
 [ext_resource type="Shader" uid="uid://d1twva8o2u0un" path="res://scenes/main/sun.gdshader" id="8_7te0o"]
 [ext_resource type="PackedScene" uid="uid://dip236uvukor1" path="res://scenes/particles/hail_particles.tscn" id="8_smv1n"]
 [ext_resource type="PackedScene" uid="uid://cidkm6uoofcnv" path="res://scenes/main/spawn_point.tscn" id="10_ays12"]
+[ext_resource type="Texture2D" uid="uid://4ik5uyx4ki6x" path="res://sprites/catch_button.png" id="12_sag5l"]
+[ext_resource type="Texture2D" uid="uid://be15stt0f6dkg" path="res://sprites/catch_button_pressed.png" id="13_2p2jg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yshnf"]
 texture = ExtResource("2_0aorq")
@@ -1236,3 +1238,13 @@ position = Vector2(61, 677)
 
 [node name="SpawnPoint6" parent="SpawnPoints" instance=ExtResource("10_ays12")]
 position = Vector2(330, 235)
+
+[node name="CatchButton" type="TextureButton" parent="."]
+offset_top = 719.0
+offset_right = 390.0
+offset_bottom = 844.0
+texture_normal = ExtResource("12_sag5l")
+texture_pressed = ExtResource("13_2p2jg")
+stretch_mode = 5
+
+[connection signal="pressed" from="CatchButton" to="." method="_on_catch_button_pressed"]

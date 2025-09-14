@@ -17,7 +17,7 @@ func show_critter_info() -> void:
 		critter.queue_free()
 	critter = GlobalVariables.critters[index].instantiate()
 	$TextureRect.texture = critter.texture
-	if critter.found:
+	if GlobalVariables.catched_critter_data.has(critter.get_critter_name_id()):
 		$NameLabel.text = critter.name
 		$TextureRect.modulate = Color.WHITE
 	else:

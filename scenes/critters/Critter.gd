@@ -27,3 +27,20 @@ func check() -> bool:
 							if p.moon_phase in moon_phase or moon_phase.is_empty():
 								return true
 	return false
+	
+func catch() -> void:
+	var critter_name_id: String = get_critter_name_id()
+	
+	if not GlobalVariables.catched_critter_data.has(critter_name_id):
+		GlobalVariables.catched_critter_data[critter_name_id] = 0
+		
+	GlobalVariables.catched_critter_data[critter_name_id] += 1
+	
+	GlobalVariables.save_data()
+	
+	queue_free()
+		
+func get_critter_name_id() -> String:
+	var critter_name_id: String = critter_name.to_lower().replace(" ", "_")
+	return critter_name_id
+	

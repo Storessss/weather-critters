@@ -47,6 +47,9 @@ var months: Array[String] = [
 	"December"
 ]
 
+func _ready() -> void:
+	GlobalVariables.load_data()
+
 func _process(delta: float) -> void:
 	now = Time.get_datetime_dict_from_system()
 	year = now.year
@@ -262,3 +265,8 @@ func play_thunder_sound():
 	]
 	$ThunderSound.stream = thunder_sounds.pick_random()
 	$ThunderSound.play()
+
+func _on_catch_button_pressed() -> void:
+	for spawn_point in $SpawnPoints.get_children():
+		if spawn_point.critter:
+			spawn_point.critter.catch()
